@@ -2,17 +2,13 @@
   <div id="app">
     <!--Login Section -->
     <div class="login mt-5" v-if="!name">
-      <h3 class="mt-5"> RPG Chat </h3>
+      <h3 class="mt-5"> Chat </h3>
       <br/>
       <label for="username">Enter your name.</label>
       <br/>
       <input class="mb-3" type="text" v-model="userName"/> <!--input text is assigned to userName-->
       <br/>
-      <button @click="authLogin" btn="btn btn-primary">
-        Sign in here and join the chat!
-      </button>
-
-      <!-- <button class="btn btn-primary" @click="updateUsername"> Join Chat</button> -->
+      <button class="btn btn-primary" @click="updateUsername"> Join Chat</button> -->
     </div>
 
     <div class="message-body mt-3" v-else>
@@ -51,6 +47,7 @@ export default {
       this.name = this.userName;
       console.log(this.userName);
       this.userName = "";
+      this.authLogin();
     },
     sendMessage(){
       const message = {
@@ -64,20 +61,9 @@ export default {
       this.showMessage="";
     },
     authLogin(){
-      const provider = new firebase.auth.GoogleAuthProvider();
-
-      firebase.auth().signInWithPopup(provider).then(()  => {
-        this.updateUsername();
-        this.$router.replace('home');
-      }).catch((err) => {
-        alert('Oops.' + err.message)
-      });
-    },
-    authSignOut(){
-      firebase.auth().signOut().then(function(){
-        this.$router.replace('home');
-      }).catch(function(error){
-        alert('Oops. ' + error.message)
+      firebase.auth().signInAnonymously().catch(function(error) {
+        var errorMessage = error.message;
+        alert('Sincere apologies. ' + errorMessage);
       });
     }
   },
